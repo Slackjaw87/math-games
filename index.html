@@ -1,279 +1,168 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Vault - 1st Grade Edition</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
-        }
+Adamcerrovideo@gmail.com's Account
+Account home
 
-        body {
-            background: linear-gradient(135deg, #74b9ff, #a29bfe);
-            color: #2d3436;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+Recents
+Workers & Pages
+Compute
 
-        .game-container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            padding: 30px;
-            text-align: center;
-            border: 6px solid #ffeaa7;
-        }
+OAuth clients
+Manage account
 
-        h1 {
-            color: #d63031;
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 0px #ffeaa7;
-        }
+Billing
+Manage account
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: #636e72;
-            margin-bottom: 25px;
-        }
+Transfers
+Domains
 
-        .vault-graphic {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            animation: bounce 2s infinite;
-        }
+Overview
+Domains
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
 
-        .score-board {
-            display: flex;
-            justify-content: space-around;
-            background: #dfe6e9;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: #2d3436;
-        }
+Domains
+Observe
 
-        .problem-card {
-            background: #fab1a0;
-            color: #2d3436;
-            font-size: 2.8rem;
-            font-weight: bold;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            box-shadow: inset 0 4px 6px rgba(0,0,0,0.1);
-        }
+Investigate
 
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
+Analytics
+Build
 
-        .option-btn {
-            background: #0984e3;
-            color: white;
-            border: none;
-            padding: 18px;
-            font-size: 1.6rem;
-            font-weight: bold;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            box-shadow: 0 6px 0 #0063b2;
-        }
+Compute
+Workers & Pages
+Observability
+Workers for Platforms
+Containers
+Durable Objects
+Queues
+Workflows
+Browser Run
+VPC
 
-        .option-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #0063b2;
-        }
+Email Service
+Workers plans
+Flagship
 
-        .option-btn:hover {
-            background: #74b9ff;
-        }
+AI
 
-        .message {
-            font-size: 1.3rem;
-            font-weight: bold;
-            min-height: 35px;
-            margin-top: 15px;
-        }
+Storage & databases
 
-        .hidden {
-            display: none !important;
-        }
+Media
+Protect & connect
 
-        .restart-btn {
-            background: #00b894;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.4rem;
-            font-weight: bold;
-            border-radius: 16px;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #00876c;
-            margin-top: 15px;
-        }
+Application security
+Zero Trust
 
-        .restart-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #00876c;
-        }
-    </style>
-</head>
-<body>
+Networking
 
-    <div class="game-container">
-        <h1>🔓 Math Vault</h1>
-        <div class="subtitle">Crack 5 codes to open the vault!</div>
+Delivery & performance
 
-        <div id="game-screen">
-            <div class="vault-graphic" id="vault-icon">🔒</div>
-            
-            <div class="score-board">
-                <div>Vaults Cracked: <span id="score">0</span>/5</div>
-            </div>
+Manage account
 
-            <div class="problem-card" id="problem-text">2 + 3 = ?</div>
+Workers & Pages
+math-games
+Support
+Overview
+Metrics
+Deployments
+Bindings
+Observability
+Domains
+Access
+Settings
 
-            <div class="options-grid" id="options-container">
-                <!-- Buttons injected dynamically -->
-            </div>
 
-            <div class="message" id="message"></div>
-        </div>
+Latest build failed
+Edit code
+Back to builds
+Build #fc0e3aed
+36s
 
-        <div id="win-screen" class="hidden">
-            <div class="vault-graphic">💰🎉</div>
-            <h2 style="color: #00b894; font-size: 2rem; margin-bottom: 15px;">Vault Opened!</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 20px;">You are a 1st Grade Math Master!</p>
-            <button class="restart-btn" onclick="startGame()">Play Again</button>
-        </div>
-    </div>
+main
+Manually deployed
+44s ago
 
-    <script>
-        let score = 0;
-        let currentAnswer = 0;
-        let isProcessing = false;
 
-        const problemText = document.getElementById('problem-text');
-        const optionsContainer = document.getElementById('options-container');
-        const scoreDisplay = document.getElementById('score');
-        const messageDisplay = document.getElementById('message');
-        const gameScreen = document.getElementById('game-screen');
-        const winScreen = document.getElementById('win-screen');
-        const vaultIcon = document.getElementById('vault-icon');
+Build settings
 
-        function startGame() {
-            score = 0;
-            scoreDisplay.textContent = score;
-            gameScreen.classList.remove('hidden');
-            winScreen.classList.add('hidden');
-            vaultIcon.textContent = '🔒';
-            nextQuestion();
-        }
+Slackjaw87/math-games
+Build command
+None
+Deploy command
+npx wrangler deploy
+Root directory
+/
+Build token
+math-games build token
 
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+Build variables
+None
 
-        function nextQuestion() {
-            isProcessing = false;
-            messageDisplay.textContent = '';
-            
-            // 1st Grade Focus: Addition and Subtraction within 10
-            const isAddition = Math.random() > 0.4; // Slightly more addition
-            let num1, num2, symbol;
+Initializing
 
-            if (isAddition) {
-                num1 = getRandomInt(0, 5);
-                num2 = getRandomInt(0, 5); // Keep sums under 10
-                currentAnswer = num1 + num2;
-                symbol = '+';
-            } else {
-                num1 = getRandomInt(1, 10);
-                num2 = getRandomInt(0, num1); // Keep results positive
-                currentAnswer = num1 - num2;
-                symbol = '-';
-            }
 
-            problemText.textContent = `${num1} ${symbol} ${num2} = ?`;
+12s
 
-            // Generate 4 multiple-choice options
-            let options = [currentAnswer];
-            while (options.length < 4) {
-                let wrongOption = getRandomInt(0, 10);
-                if (!options.includes(wrongOption)) {
-                    options.push(wrongOption);
-                }
-            }
+11:47:11.162
 
-            // Shuffle options
-            options.sort(() => Math.random() - 0.5);
+Cloning
 
-            // Render buttons
-            optionsContainer.innerHTML = '';
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.textContent = opt;
-                btn.onclick = () => checkAnswer(opt, btn);
-                optionsContainer.appendChild(btn);
-            });
-        }
 
-        function checkAnswer(selected, btn) {
-            if (isProcessing) return;
-            isProcessing = true;
+3s
 
-            if (selected === currentAnswer) {
-                score++;
-                scoreDisplay.textContent = score;
-                messageDisplay.style.color = '#00b894';
-                messageDisplay.textContent = '✨ Correct! Lock sliding... ✨';
-                vaultIcon.textContent = '🔓';
+11:47:23.379
 
-                if (score >= 5) {
-                    setTimeout(() => {
-                        gameScreen.classList.add('hidden');
-                        winScreen.classList.remove('hidden');
-                    }, 1000);
-                    return;
-                }
+Installing
 
-                setTimeout(nextQuestion, 1100);
-            } else {
-                messageDisplay.style.color = '#d63031';
-                messageDisplay.textContent = '❌ Try again!';
-                btn.style.background = '#d63031';
-                setTimeout(() => {
-                    isProcessing = false;
-                    btn.style.background = '#0984e3';
-                    messageDisplay.textContent = '';
-                }, 800);
-            }
-        }
 
-        // Initialize game on load
-        startGame();
-    </script>
-</body>
-</html>
+221ms
+
+11:47:26.170
+
+Deploying
+
+
+21s
+
+11:47:26.391
+
+11:47:11.162
+Initializing build environment...
+11:47:11.162
+Initializing build environment...
+11:47:18.869
+Success: Finished initializing build environment
+11:47:24.483
+Cloning repository...
+11:47:26.385
+No build output detected to cache. Skipping.
+11:47:26.385
+No dependencies detected to cache. Skipping.
+11:47:26.387
+Detected the following tools from environment: 
+11:47:26.609
+Executing user deploy command: npx wrangler deploy
+11:47:29.666
+npm warn exec The following package was not found and will be installed: wrangler@4.127.1
+11:47:45.245
+11:47:45.246
+ ⛅️ wrangler 4.127.1
+11:47:45.246
+────────────────────
+11:47:45.431
+11:47:45.431
+Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+11:47:45.437
+11:47:45.534
+✘ [ERROR] Could not detect a directory containing static files (e.g. html, css and js) for the project
+11:47:45.536
+11:47:45.536
+11:47:45.598
+🪵  Logs were written to "/opt/buildhome/.config/.wrangler/logs/wrangler-2026-08-29_15-47-44_516.log"
+11:47:45.726
+Failed: error occurred while running deploy command
+Support
+System status
+Careers
+Terms of Use
+Report Security Issues
+Privacy Policy
+© 2026 Cloudflare, Inc.
