@@ -1,168 +1,481 @@
-Adamcerrovideo@gmail.com's Account
-Account home
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Vault Plus</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+        }
 
-Recents
-Workers & Pages
-Compute
+        body {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
 
-OAuth clients
-Manage account
+        .game-container {
+            background: #1e272e;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            padding: 25px;
+            text-align: center;
+            border: 6px solid #f1c40f;
+            position: relative;
+        }
 
-Billing
-Manage account
+        h1 {
+            color: #f1c40f;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 0px #d35400;
+        }
 
-Transfers
-Domains
+        .subtitle {
+            font-size: 1rem;
+            color: #bdc3c7;
+            margin-bottom: 15px;
+        }
 
-Overview
-Domains
+        /* Top HUD */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2f3640;
+            padding: 10px 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
 
+        .streak-badge {
+            color: #e67e22;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-Domains
-Observe
+        /* Coin Transfer Stage */
+        .transfer-stage {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2f3640;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 2px dashed #7f8c8d;
+        }
 
-Investigate
+        .coin-pool {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            width: 45%;
+        }
 
-Analytics
-Build
+        .coin {
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle, #f1c40f, #d4ac0d);
+            border: 2px solid #b7950b;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #7d6608;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+        }
 
-Compute
-Workers & Pages
-Observability
-Workers for Platforms
-Containers
-Durable Objects
-Queues
-Workflows
-Browser Run
-VPC
+        .coin.spent {
+            opacity: 0.2;
+            transform: scale(0.7);
+        }
 
-Email Service
-Workers plans
-Flagship
+        .vault-dropzone {
+            width: 45%;
+            background: #353b48;
+            border: 4px solid #f1c40f;
+            border-radius: 16px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90px;
+            position: relative;
+        }
 
-AI
+        .vault-icon {
+            font-size: 2.2rem;
+            animation: pulse 2s infinite;
+        }
 
-Storage & databases
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
 
-Media
-Protect & connect
+        .vault-label {
+            font-size: 0.85rem;
+            color: #f1c40f;
+            margin-top: 4px;
+        }
 
-Application security
-Zero Trust
+        /* Banner Notification */
+        .banner {
+            background: #e74c3c;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            animation: bounce 0.5s infinite alternate;
+            display: none;
+        }
 
-Networking
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-4px); }
+        }
 
-Delivery & performance
+        /* Problem Card */
+        .problem-card {
+            background: #e67e22;
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 4px 6px rgba(0,0,0,0.2);
+            border: 3px solid #d35400;
+        }
 
-Manage account
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
 
-Workers & Pages
-math-games
-Support
-Overview
-Metrics
-Deployments
-Bindings
-Observability
-Domains
-Access
-Settings
+        .option-btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 0 5px 0 #b95d15;
+        }
 
+        .option-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #b95d15;
+        }
 
-Latest build failed
-Edit code
-Back to builds
-Build #fc0e3aed
-36s
+        .message {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-height: 30px;
+        }
 
-main
-Manually deployed
-44s ago
+        .hidden {
+            display: none !important;
+        }
 
+        .restart-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #27ae60;
+            margin-top: 15px;
+        }
 
-Build settings
+        .restart-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #27ae60;
+        }
+    </style>
+</head>
+<body>
 
-Slackjaw87/math-games
-Build command
-None
-Deploy command
-npx wrangler deploy
-Root directory
-/
-Build token
-math-games build token
+    <div class="game-container">
+        <h1>🔓 Math Vault Plus</h1>
+        <div class="subtitle">1st Grade Edition • 10 Vault Codes</div>
 
-Build variables
-None
+        <div id="game-screen">
+            <!-- HUD -->
+            <div class="hud">
+                <div>Equation: <span id="current-eq-num">1</span>/10</div>
+                <div class="streak-badge">🔥 Streak: <span id="streak-count">0</span></div>
+            </div>
 
-Initializing
+            <!-- Banner Area -->
+            <div id="banner" class="banner"></div>
 
+            <!-- Coin Transfer Visualizer -->
+            <div class="transfer-stage">
+                <div class="coin-pool" id="coin-pool">
+                    <!-- 10 Coins Injected -->
+                </div>
+                <div class="vault-dropzone">
+                    <div class="vault-icon" id="vault-icon">🔒</div>
+                    <div class="vault-label">Bank Vault</div>
+                </div>
+            </div>
 
-12s
+            <!-- Problem Card -->
+            <div class="problem-card" id="problem-text">1 + 1 = ?</div>
 
-11:47:11.162
+            <!-- Options -->
+            <div class="options-grid" id="options-container"></div>
 
-Cloning
+            <div class="message" id="message"></div>
+        </div>
 
+        <!-- Win Screen -->
+        <div id="win-screen" class="hidden">
+            <div class="vault-icon" style="font-size: 4rem; margin-bottom: 15px;">💰🎉⭐</div>
+            <h2 style="color: #2ecc71; font-size: 2rem; margin-bottom: 10px;">Vault Fully Unlocked!</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 20px; color: #ecf0f1;">Incredible job! You mastered all 10 math equations like a true 1st grade math superstar!</p>
+            <button class="restart-btn" onclick="startGame()">Play Again</button>
+        </div>
+    </div>
 
-3s
+    <script>
+        // Web Audio API Sound Generator
+        let audioCtx = null;
 
-11:47:23.379
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
 
-Installing
+        function playSound(type) {
+            initAudio();
+            if (!audioCtx) return;
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
+            let now = audioCtx.currentTime;
 
-221ms
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'incorrect') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.setValueAtTime(100, now + 0.1);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'win') {
+                let notes = [261.63, 329.63, 392.00, 523.25];
+                notes.forEach((freq, idx) => {
+                    let noteOsc = audioCtx.createOscillator();
+                    let noteGain = audioCtx.createGain();
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(audioCtx.destination);
+                    noteOsc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                    noteGain.gain.setValueAtTime(0.2, now + idx * 0.1);
+                    noteGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.3);
+                    noteOsc.start(now + idx * 0.1);
+                    noteOsc.stop(now + idx * 0.1 + 0.3);
+                });
+            }
+        }
 
-11:47:26.170
+        let currentIndex = 0;
+        let streak = 0;
+        let currentAnswer = 0;
+        let isProcessing = false;
 
-Deploying
+        const problemText = document.getElementById('problem-text');
+        const optionsContainer = document.getElementById('options-container');
+        const eqNumDisplay = document.getElementById('current-eq-num');
+        const streakDisplay = document.getElementById('streak-count');
+        const messageDisplay = document.getElementById('message');
+        const gameScreen = document.getElementById('game-screen');
+        const winScreen = document.getElementById('win-screen');
+        const vaultIcon = document.getElementById('vault-icon');
+        const coinPool = document.getElementById('coin-pool');
+        const banner = document.getElementById('banner');
 
+        function renderCoins() {
+            coinPool.innerHTML = '';
+            for (let i = 0; i < 10; i++) {
+                const coin = document.createElement('div');
+                coin.className = 'coin';
+                if (i < currentIndex) {
+                    coin.classList.add('spent');
+                }
+                coin.textContent = i + 1;
+                coinPool.appendChild(coin);
+            }
+        }
 
-21s
+        function startGame() {
+            currentIndex = 0;
+            streak = 0;
+            streakDisplay.textContent = streak;
+            gameScreen.classList.remove('hidden');
+            winScreen.classList.add('hidden');
+            banner.style.display = 'none';
+            vaultIcon.textContent = '🔒';
+            renderCoins();
+            nextQuestion();
+        }
 
-11:47:26.391
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
 
-11:47:11.162
-Initializing build environment...
-11:47:11.162
-Initializing build environment...
-11:47:18.869
-Success: Finished initializing build environment
-11:47:24.483
-Cloning repository...
-11:47:26.385
-No build output detected to cache. Skipping.
-11:47:26.385
-No dependencies detected to cache. Skipping.
-11:47:26.387
-Detected the following tools from environment: 
-11:47:26.609
-Executing user deploy command: npx wrangler deploy
-11:47:29.666
-npm warn exec The following package was not found and will be installed: wrangler@4.127.1
-11:47:45.245
-11:47:45.246
- ⛅️ wrangler 4.127.1
-11:47:45.246
-────────────────────
-11:47:45.431
-11:47:45.431
-Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
-11:47:45.437
-11:47:45.534
-✘ [ERROR] Could not detect a directory containing static files (e.g. html, css and js) for the project
-11:47:45.536
-11:47:45.536
-11:47:45.598
-🪵  Logs were written to "/opt/buildhome/.config/.wrangler/logs/wrangler-2026-08-29_15-47-44_516.log"
-11:47:45.726
-Failed: error occurred while running deploy command
-Support
-System status
-Careers
-Terms of Use
-Report Security Issues
-Privacy Policy
-© 2026 Cloudflare, Inc.
+        function nextQuestion() {
+            isProcessing = false;
+            messageDisplay.textContent = '';
+            vaultIcon.textContent = '🔒';
+            eqNumDisplay.textContent = currentIndex + 1;
+            renderCoins();
+
+            // Handle Banners based on progression
+            if (currentIndex === 4) {
+                banner.textContent = '🔥 5 IN A ROW! YOU ARE ON FIRE! 🔥';
+                banner.style.display = 'block';
+            } else if (currentIndex === 8) {
+                banner.textContent = '⚡ ALMOST THERE! FINAL CHALLENGE AHEAD! ⚡';
+                banner.style.display = 'block';
+            } else {
+                banner.style.display = 'none';
+            }
+
+            // Tiered Difficulty (Only Addition)
+            let num1, num2;
+            if (currentIndex < 2) {
+                // Tier 1: Very Easy (Sums up to 5)
+                num1 = getRandomInt(0, 3);
+                num2 = getRandomInt(0, 2);
+            } else if (currentIndex < 8) {
+                // Tier 2: Mid-year 1st Grade (Sums up to 8/9)
+                num1 = getRandomInt(1, 5);
+                num2 = getRandomInt(1, 4);
+            } else {
+                // Tier 3: Hardest 1st Grade level (Sums up to 10)
+                num1 = getRandomInt(3, 5);
+                num2 = getRandomInt(3, 5);
+            }
+
+            currentAnswer = num1 + num2;
+            problemText.textContent = `${num1} + ${num2} = ?`;
+
+            // Generate options
+            let options = [currentAnswer];
+            while (options.length < 4) {
+                let wrong = getRandomInt(0, 10);
+                if (!options.includes(wrong)) {
+                    options.push(wrong);
+                }
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            optionsContainer.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(opt, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, btn) {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            const allButtons = document.querySelectorAll('.option-btn');
+            allButtons.forEach(b => b.style.pointerEvents = 'none');
+
+            if (selected === currentAnswer) {
+                playSound('correct');
+                streak++;
+                streakDisplay.textContent = streak;
+                messageDisplay.style.color = '#2ecc71';
+                messageDisplay.textContent = '✨ Correct! Coin transferred to Vault! ✨';
+                btn.style.background = '#2ecc71';
+                vaultIcon.textContent = '🔓';
+
+                // Transfer coin visual update
+                const coins = coinPool.querySelectorAll('.coin');
+                if (coins[currentIndex]) {
+                    coins[currentIndex].classList.add('spent');
+                }
+
+                currentIndex++;
+
+                if (currentIndex >= 10) {
+                    playSound('win');
+                    setTimeout(() => {
+                        gameScreen.classList.add('hidden');
+                        winScreen.classList.remove('hidden');
+                    }, 2000);
+                    return;
+                }
+
+                // 3 second delay for next equation
+                setTimeout(nextQuestion, 3000);
+            } else {
+                playSound('incorrect');
+                streak = 0;
+                streakDisplay.textContent = streak;
+                messageDisplay.style.color = '#e74c3c';
+                messageDisplay.textContent = '❌ Try again!';
+                btn.style.background = '#e74c3c';
+                
+                setTimeout(() => {
+                    isProcessing = false;
+                    btn.style.background = '#e67e22';
+                    messageDisplay.textContent = '';
+                    allButtons.forEach(b => b.style.pointerEvents = 'auto');
+                }, 1000);
+            }
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
