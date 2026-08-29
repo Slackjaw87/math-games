@@ -185,7 +185,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Dynamic Alert Marquee (Clean Dark/Gold Style instead of Pink) */
+        /* Arcade Announcement Banner */
         .arcade-banner {
             background: linear-gradient(135deg, #2c3e50, #f39c12);
             color: #ffffff;
@@ -205,11 +205,11 @@
             to { transform: scale(1.02); }
         }
 
-        /* Problem Card (Equation) - Distinct Blue/Purple Theme */
+        /* Problem Card (Equation) */
         .problem-card {
             background: linear-gradient(135deg, #0984e3, #6c5ce7);
             color: #ffffff;
-            font-size: 3.2rem;
+            font-size: 3rem;
             font-weight: bold;
             padding: 15px;
             border-radius: 16px;
@@ -225,7 +225,7 @@
             50% { transform: translateY(-4px); }
         }
 
-        /* Options Grid - Nice Orange Tone */
+        /* Options Grid */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -333,10 +333,10 @@
                 </div>
             </div>
 
-            <!-- Problem Card (Distinct Color from Options) -->
+            <!-- Problem Card -->
             <div class="problem-card" id="problem-text">1 + 1</div>
 
-            <!-- Options Grid (Nice Orange Tone) -->
+            <!-- Options Grid -->
             <div class="options-grid" id="options-container"></div>
 
             <div class="message" id="message"></div>
@@ -380,6 +380,14 @@
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
                 osc.start(now);
                 osc.stop(now + 0.35);
+            } else if (type === 'land') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
             } else if (type === 'incorrect') {
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(140, now);
@@ -407,6 +415,8 @@
         let currentIndex = 0;
         let streak = 0;
         let currentAnswer = 0;
+        let currentNum1 = 0;
+        let currentNum2 = 0;
         let isProcessing = false;
 
         const problemText = document.getElementById('problem-text');
@@ -459,7 +469,7 @@
             eqNumDisplay.textContent = currentIndex + 1;
             renderCoins();
 
-            // Handle Banners (Cinematic Checkpoints)
+            // Handle Banners
             if (currentIndex === 4) {
                 arcadeBanner.textContent = '⭐ HALF WAY THERE! KEEP CRUSHING IT! ⭐';
                 arcadeBanner.style.display = 'block';
@@ -470,27 +480,27 @@
                 arcadeBanner.style.display = 'none';
             }
 
-            // Tiered Difficulty (Addition only)
-            let num1, num2;
+            // Advanced 1st Grade 2/3 School Year Progression (Addition Only)
             if (currentIndex < 2) {
-                num1 = getRandomInt(0, 3);
-                num2 = getRandomInt(0, 2);
+                currentNum1 = getRandomInt(3, 6);
+                currentNum2 = getRandomInt(3, 4);
             } else if (currentIndex < 8) {
-                num1 = getRandomInt(1, 5);
-                num2 = getRandomInt(1, 4);
+                currentNum1 = getRandomInt(5, 8);
+                currentNum2 = getRandomInt(5, 7);
             } else {
-                num1 = getRandomInt(3, 5);
-                num2 = getRandomInt(3, 5);
+                currentNum1 = getRandomInt(7, 9);
+                currentNum2 = getRandomInt(8, 9);
             }
 
-            currentAnswer = num1 + num2;
-            problemText.textContent = `${num1} + ${num2}`;
+            currentAnswer = currentNum1 + currentNum2;
+            problemText.textContent = `${currentNum1} + ${currentNum2}`;
 
-            // Generate options
+            // Generate options close to the real answer to prevent easy guessing
             let options = [currentAnswer];
             while (options.length < 4) {
-                let wrong = getRandomInt(0, 10);
-                if (!options.includes(wrong)) {
+                let offset = getRandomInt(-3, 3);
+                let wrong = currentAnswer + offset;
+                if (wrong >= 0 && wrong !== currentAnswer && !options.includes(wrong)) {
                     options.push(wrong);
                 }
             }
@@ -517,7 +527,6 @@
             const startRect = targetCoin.getBoundingClientRect();
             const targetRect = vaultDropzone.getBoundingClientRect();
 
-            // Create absolute physical flying element
             const flyer = document.createElement('div');
             flyer.className = 'flying-coin';
             flyer.textContent = currentIndex + 1;
@@ -525,20 +534,17 @@
             flyer.style.top = `${startRect.top}px`;
             document.body.appendChild(flyer);
 
-            // Hide original coin in pool instantly
             targetCoin.classList.add('spent');
-
-            // Force browser reflow
             flyer.getBoundingClientRect();
 
-            // Animate trajectory directly to the center of Bank Deposit
             flyer.style.left = `${targetRect.left + (targetRect.width / 2) - 17}px`;
             flyer.style.top = `${targetRect.top + (targetRect.height / 2) - 17}px`;
             flyer.style.transform = 'scale(1.2) rotate(360deg)';
 
             setTimeout(() => {
                 flyer.remove();
-                vaultIcon.textContent = '🔓';
+                playSound('land');
+                vaultIcon.textContent = '🏦';
                 vaultIcon.classList.add('shake');
                 setTimeout(() => vaultIcon.classList.remove('shake'), 400);
                 callback();
@@ -560,6 +566,9 @@
                     streakBadge.classList.add('on-fire');
                 }
                 
+                // Display full equation with answer for review (e.g. 4+5=9)
+                problemText.textContent = `${currentNum1} + ${currentNum2} = ${currentAnswer}`;
+                
                 messageDisplay.style.color = '#2ecc71';
                 messageDisplay.textContent = '✨ Correct! Deposited into Bank! ✨';
                 btn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
@@ -577,7 +586,6 @@
                         return;
                     }
 
-                    // 3 second delay before loading next equation
                     setTimeout(nextQuestion, 3000);
                 });
             } else {
