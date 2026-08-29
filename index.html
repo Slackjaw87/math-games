@@ -183,17 +183,25 @@
             white-space: nowrap;
         }
 
-        /* Arcade Announcement Banner */
+        /* Arcade Announcement Banner - Fixed Height Box */
         .arcade-banner {
             background: linear-gradient(135deg, #2c3e50, #f39c12);
             color: #ffffff;
             padding: 6px;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: bold;
             margin-bottom: 8px;
             border: 2px solid #f1c40f;
-            display: none;
+            min-height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+        }
+
+        .arcade-banner.visible {
+            visibility: visible;
         }
 
         /* Problem Card (Equation) */
@@ -291,7 +299,7 @@
                 <div class="streak-badge" id="streak-badge">🔥 Streak: <span id="streak-count">0</span></div>
             </div>
 
-            <!-- Arcade Announcement Banner -->
+            <!-- Arcade Announcement Banner with fixed container height to prevent layout shifts -->
             <div id="arcade-banner" class="arcade-banner"></div>
 
             <!-- Coin Transfer Stage -->
@@ -454,7 +462,8 @@
             streakBadge.classList.remove('on-fire');
             gameScreen.classList.remove('hidden');
             winScreen.classList.add('hidden');
-            arcadeBanner.style.display = 'none';
+            arcadeBanner.textContent = '';
+            arcadeBanner.classList.remove('visible');
             vaultIcon.textContent = '🏦';
             renderCoins();
             nextQuestion();
@@ -472,13 +481,14 @@
             renderCoins();
 
             if (currentIndex === 4) {
-                arcadeBanner.textContent = '⭐ HALF WAY THERE! KEEP CRUSHING IT! ⭐';
-                arcadeBanner.style.display = 'block';
+                arcadeBanner.textContent = '⭐ HALF WAY THERE! ⭐';
+                arcadeBanner.classList.add('visible');
             } else if (currentIndex === 9) {
-                arcadeBanner.textContent = '💵 FINAL DEPOSIT! TIME TO FILL THE BANK! 🏦';
-                arcadeBanner.style.display = 'block';
+                arcadeBanner.textContent = '💵 LAST ONE! FILL THE BANK! 🏦';
+                arcadeBanner.classList.add('visible');
             } else {
-                arcadeBanner.style.display = 'none';
+                arcadeBanner.textContent = '';
+                arcadeBanner.classList.remove('visible');
             }
 
             if (currentIndex < 2) {
