@@ -353,40 +353,64 @@
             initAudio();
             if (!audioCtx) return;
             
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+            const now = audioCtx.currentTime;
 
-            let now = audioCtx.currentTime;
+            if (type === 'woosh') {
+                // Smooth passing swoosh sound effect during coin transfer
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                const filter = audioCtx.createBiquadFilter();
 
-            if (type === 'correct') {
-                // Gentle pleasant chime
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, now); // C5
-                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
-                gain.gain.setValueAtTime(0.2, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                filter.type = 'lowpass';
+                
+                filter.frequency.setValueAtTime(200, now);
+                filter.frequency.exponentialRampToValueAtTime(1200, now + 0.4);
+                filter.frequency.exponentialRampToValueAtTime(300, now + 0.8);
+
+                gain.gain.setValueAtTime(0.01, now);
+                gain.gain.linearRampToValueAtTime(0.25, now + 0.3);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+
                 osc.start(now);
-                osc.stop(now + 0.25);
-            } else if (type === 'land') {
-                // Satisfying mechanical vault thud / heavy click sound when coin enters deposit
+                osc.stop(now + 0.8);
+            } 
+            else if (type === 'arrival') {
+                // The pleasant correct answer chime playing when the coin arrives at the bank
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
                 osc.type = 'triangle';
-                osc.frequency.setValueAtTime(180, now);
-                osc.frequency.exponentialRampToValueAtTime(60, now + 0.15);
-                gain.gain.setValueAtTime(0.35, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                osc.frequency.setValueAtTime(350, now);
+                osc.frequency.exponentialRampToValueAtTime(700, now + 0.18);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                
                 osc.start(now);
-                osc.stop(now + 0.2);
-            } else if (type === 'incorrect') {
+                osc.stop(now + 0.35);
+            } 
+            else if (type === 'incorrect') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(140, now);
                 osc.frequency.setValueAtTime(90, now + 0.12);
                 gain.gain.setValueAtTime(0.2, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                
                 osc.start(now);
                 osc.stop(now + 0.25);
-            } else if (type === 'win') {
+            } 
+            else if (type === 'win') {
                 let notes = [261.63, 329.63, 392.00, 523.25, 659.25];
                 notes.forEach((freq, idx) => {
                     let noteOsc = audioCtx.createOscillator();
@@ -527,13 +551,17 @@
             targetCoin.classList.add('spent');
             flyer.getBoundingClientRect();
 
+            // Play the woosh sound as the coin starts its journey
+            playSound('woosh');
+
             flyer.style.left = `${targetRect.left + (targetRect.width / 2) - 17}px`;
             flyer.style.top = `${targetRect.top + (targetRect.height / 2) - 17}px`;
             flyer.style.transform = 'scale(1.2) rotate(360deg)';
 
             setTimeout(() => {
                 flyer.remove();
-                playSound('land'); // Play satisfying mechanical vault drop thud on landing
+                // Play correct answer sound when coin arrives at the bank
+                playSound('arrival');
                 vaultIcon.textContent = '🏦';
                 vaultIcon.classList.add('shake');
                 setTimeout(() => vaultIcon.classList.remove('shake'), 400);
@@ -549,7 +577,6 @@
             allButtons.forEach(b => b.style.pointerEvents = 'none');
 
             if (selected === currentAnswer) {
-                playSound('correct');
                 streak++;
                 streakDisplay.textContent = streak;
                 if (streak >= 3) {
