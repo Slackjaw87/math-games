@@ -121,9 +121,10 @@
             position: relative;
         }
 
-        .vault-icon {
-            font-size: 2.2rem;
+        .vault-graphic {
+            font-size: 2.5rem;
             animation: pulse 2s infinite;
+            color: #f1c40f;
         }
 
         @keyframes pulse {
@@ -155,17 +156,17 @@
             to { transform: translateY(-4px); }
         }
 
-        /* Problem Card */
+        /* Problem Card (Equation) */
         .problem-card {
-            background: #e67e22;
-            color: #ffffff;
-            font-size: 2.5rem;
+            background: #ffffff; /* Changed background */
+            color: #2d3436; /* Changed text color for contrast */
+            font-size: 3.5rem;
             font-weight: bold;
             padding: 15px;
             border-radius: 16px;
             margin-bottom: 20px;
-            box-shadow: inset 0 4px 6px rgba(0,0,0,0.2);
-            border: 3px solid #d35400;
+            box-shadow: inset 0 4px 6px rgba(0,0,0,0.1);
+            border: 4px solid #b2bec3;
         }
 
         /* Options Grid */
@@ -177,7 +178,7 @@
         }
 
         .option-btn {
-            background: #e67e22;
+            background: #e67e22; /* Orange Default */
             color: white;
             border: none;
             padding: 15px;
@@ -226,7 +227,7 @@
 <body>
 
     <div class="game-container">
-        <h1>🔓 Math Vault Plus</h1>
+        <h1>💰 Math Vault Plus</h1>
         <div class="subtitle">1st Grade Edition • 10 Vault Codes</div>
 
         <div id="game-screen">
@@ -245,12 +246,12 @@
                     <!-- 10 Coins Injected -->
                 </div>
                 <div class="vault-dropzone">
-                    <div class="vault-icon" id="vault-icon">🔒</div>
-                    <div class="vault-label">Bank Vault</div>
+                    <div class="vault-graphic" id="vault-icon">🏦</div> <!-- Changed from lock to bank -->
+                    <div class="vault-label">Safe Deposit</div>
                 </div>
             </div>
 
-            <!-- Problem Card -->
+            <!-- Problem Card (Equation) -->
             <div class="problem-card" id="problem-text">1 + 1 = ?</div>
 
             <!-- Options -->
@@ -261,7 +262,7 @@
 
         <!-- Win Screen -->
         <div id="win-screen" class="hidden">
-            <div class="vault-icon" style="font-size: 4rem; margin-bottom: 15px;">💰🎉⭐</div>
+            <div class="vault-graphic" style="font-size: 4rem; margin-bottom: 15px;">💰🎉</div>
             <h2 style="color: #2ecc71; font-size: 2rem; margin-bottom: 10px;">Vault Fully Unlocked!</h2>
             <p style="font-size: 1.1rem; margin-bottom: 20px; color: #ecf0f1;">Incredible job! You mastered all 10 math equations like a true 1st grade math superstar!</p>
             <button class="restart-btn" onclick="startGame()">Play Again</button>
@@ -357,7 +358,7 @@
             gameScreen.classList.remove('hidden');
             winScreen.classList.add('hidden');
             banner.style.display = 'none';
-            vaultIcon.textContent = '🔒';
+            vaultIcon.textContent = '🏦';
             renderCoins();
             nextQuestion();
         }
@@ -369,11 +370,11 @@
         function nextQuestion() {
             isProcessing = false;
             messageDisplay.textContent = '';
-            vaultIcon.textContent = '🔒';
+            vaultIcon.textContent = '🏦';
             eqNumDisplay.textContent = currentIndex + 1;
             renderCoins();
 
-            // Handle Banners based on progression
+            // Handle Banners
             if (currentIndex === 4) {
                 banner.textContent = '🔥 5 IN A ROW! YOU ARE ON FIRE! 🔥';
                 banner.style.display = 'block';
@@ -384,24 +385,21 @@
                 banner.style.display = 'none';
             }
 
-            // Tiered Difficulty (Only Addition)
+            // Tiered Difficulty
             let num1, num2;
             if (currentIndex < 2) {
-                // Tier 1: Very Easy (Sums up to 5)
                 num1 = getRandomInt(0, 3);
                 num2 = getRandomInt(0, 2);
             } else if (currentIndex < 8) {
-                // Tier 2: Mid-year 1st Grade (Sums up to 8/9)
                 num1 = getRandomInt(1, 5);
                 num2 = getRandomInt(1, 4);
             } else {
-                // Tier 3: Hardest 1st Grade level (Sums up to 10)
                 num1 = getRandomInt(3, 5);
                 num2 = getRandomInt(3, 5);
             }
 
             currentAnswer = num1 + num2;
-            problemText.textContent = `${num1} + ${num2} = ?`;
+            problemText.textContent = `${num1} + ${num2}`; // Removed "= ?" for cleaner look
 
             // Generate options
             let options = [currentAnswer];
@@ -437,7 +435,6 @@
                 messageDisplay.style.color = '#2ecc71';
                 messageDisplay.textContent = '✨ Correct! Coin transferred to Vault! ✨';
                 btn.style.background = '#2ecc71';
-                vaultIcon.textContent = '🔓';
 
                 // Transfer coin visual update
                 const coins = coinPool.querySelectorAll('.coin');
@@ -455,27 +452,3 @@
                     }, 2000);
                     return;
                 }
-
-                // 3 second delay for next equation
-                setTimeout(nextQuestion, 3000);
-            } else {
-                playSound('incorrect');
-                streak = 0;
-                streakDisplay.textContent = streak;
-                messageDisplay.style.color = '#e74c3c';
-                messageDisplay.textContent = '❌ Try again!';
-                btn.style.background = '#e74c3c';
-                
-                setTimeout(() => {
-                    isProcessing = false;
-                    btn.style.background = '#e67e22';
-                    messageDisplay.textContent = '';
-                    allButtons.forEach(b => b.style.pointerEvents = 'auto');
-                }, 1000);
-            }
-        }
-
-        startGame();
-    </script>
-</body>
-</html>
