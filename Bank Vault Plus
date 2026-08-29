@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Vault - 1st Grade Edition</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            color: #2d3436;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            padding: 30px;
+            text-align: center;
+            border: 6px solid #ffeaa7;
+        }
+
+        h1 {
+            color: #d63031;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 0px #ffeaa7;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #636e72;
+            margin-bottom: 25px;
+        }
+
+        .vault-graphic {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            background: #dfe6e9;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #2d3436;
+        }
+
+        .problem-card {
+            background: #fab1a0;
+            color: #2d3436;
+            font-size: 2.8rem;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: #0984e3;
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 0 6px 0 #0063b2;
+        }
+
+        .option-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #0063b2;
+        }
+
+        .option-btn:hover {
+            background: #74b9ff;
+        }
+
+        .message {
+            font-size: 1.3rem;
+            font-weight: bold;
+            min-height: 35px;
+            margin-top: 15px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .restart-btn {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #00876c;
+            margin-top: 15px;
+        }
+
+        .restart-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #00876c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>🔓 Math Vault</h1>
+        <div class="subtitle">Crack 5 codes to open the vault!</div>
+
+        <div id="game-screen">
+            <div class="vault-graphic" id="vault-icon">🔒</div>
+            
+            <div class="score-board">
+                <div>Vaults Cracked: <span id="score">0</span>/5</div>
+            </div>
+
+            <div class="problem-card" id="problem-text">2 + 3 = ?</div>
+
+            <div class="options-grid" id="options-container">
+                <!-- Buttons injected dynamically -->
+            </div>
+
+            <div class="message" id="message"></div>
+        </div>
+
+        <div id="win-screen" class="hidden">
+            <div class="vault-graphic">💰🎉</div>
+            <h2 style="color: #00b894; font-size: 2rem; margin-bottom: 15px;">Vault Opened!</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">You are a 1st Grade Math Master!</p>
+            <button class="restart-btn" onclick="startGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let currentAnswer = 0;
+        let isProcessing = false;
+
+        const problemText = document.getElementById('problem-text');
+        const optionsContainer = document.getElementById('options-container');
+        const scoreDisplay = document.getElementById('score');
+        const messageDisplay = document.getElementById('message');
+        const gameScreen = document.getElementById('game-screen');
+        const winScreen = document.getElementById('win-screen');
+        const vaultIcon = document.getElementById('vault-icon');
+
+        function startGame() {
+            score = 0;
+            scoreDisplay.textContent = score;
+            gameScreen.classList.remove('hidden');
+            winScreen.classList.add('hidden');
+            vaultIcon.textContent = '🔒';
+            nextQuestion();
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function nextQuestion() {
+            isProcessing = false;
+            messageDisplay.textContent = '';
+            
+            // 1st Grade Focus: Addition and Subtraction within 10
+            const isAddition = Math.random() > 0.4; // Slightly more addition
+            let num1, num2, symbol;
+
+            if (isAddition) {
+                num1 = getRandomInt(0, 5);
+                num2 = getRandomInt(0, 5); // Keep sums under 10
+                currentAnswer = num1 + num2;
+                symbol = '+';
+            } else {
+                num1 = getRandomInt(1, 10);
+                num2 = getRandomInt(0, num1); // Keep results positive
+                currentAnswer = num1 - num2;
+                symbol = '-';
+            }
+
+            problemText.textContent = `${num1} ${symbol} ${num2} = ?`;
+
+            // Generate 4 multiple-choice options
+            let options = [currentAnswer];
+            while (options.length < 4) {
+                let wrongOption = getRandomInt(0, 10);
+                if (!options.includes(wrongOption)) {
+                    options.push(wrongOption);
+                }
+            }
+
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+
+            // Render buttons
+            optionsContainer.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(opt, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, btn) {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            if (selected === currentAnswer) {
+                score++;
+                scoreDisplay.textContent = score;
+                messageDisplay.style.color = '#00b894';
+                messageDisplay.textContent = '✨ Correct! Lock sliding... ✨';
+                vaultIcon.textContent = '🔓';
+
+                if (score >= 5) {
+                    setTimeout(() => {
+                        gameScreen.classList.add('hidden');
+                        winScreen.classList.remove('hidden');
+                    }, 1000);
+                    return;
+                }
+
+                setTimeout(nextQuestion, 1100);
+            } else {
+                messageDisplay.style.color = '#d63031';
+                messageDisplay.textContent = '❌ Try again!';
+                btn.style.background = '#d63031';
+                setTimeout(() => {
+                    isProcessing = false;
+                    btn.style.background = '#0984e3';
+                    messageDisplay.textContent = '';
+                }, 800);
+            }
+        }
+
+        // Initialize game on load
+        startGame();
+    </script>
+</body>
+</html>
