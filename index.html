@@ -344,9 +344,9 @@
 
         <!-- Win Screen -->
         <div id="win-screen" class="hidden">
-            <div class="vault-graphic" style="font-size: 4.5rem; margin-bottom: 15px; animation: floatTitle 2s infinite;">💰🎉🏆</div>
-            <h2 style="color: #2ecc71; font-size: 2.2rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.4);">Vault Fully Unlocked!</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 25px; color: #ecf0f1; line-height: 1.4;">Incredible job! You mastered all 10 math equations like a true 1st grade math superstar!</p>
+            <div class="vault-graphic" style="font-size: 4rem; margin-bottom: 15px; animation: floatTitle 2s infinite;">👑💰🏆</div>
+            <h2 style="color: #2ecc71; font-size: 2.2rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.4);">Amazing job! You're a Math Superstar!</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 25px; color: #ecf0f1; line-height: 1.4;">All coins have been successfully deposited into the bank!</p>
             <button class="restart-btn" onclick="startGame()">Play Again 🚀</button>
         </div>
     </div>
@@ -380,14 +380,15 @@
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
                 osc.start(now);
                 osc.stop(now + 0.35);
-            } else if (type === 'land') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, now);
-                osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
-                gain.gain.setValueAtTime(0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+            } else if (type === 'cashregister') {
+                // Cha-ching cash register arcade sound effect
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(987.77, now); // B5
+                osc.frequency.setValueAtTime(1318.51, now + 0.08); // E6
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
                 osc.start(now);
-                osc.stop(now + 0.2);
+                osc.stop(now + 0.3);
             } else if (type === 'incorrect') {
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(140, now);
@@ -543,7 +544,7 @@
 
             setTimeout(() => {
                 flyer.remove();
-                playSound('land');
+                playSound('cashregister'); // Cha-ching sound effect on landing
                 vaultIcon.textContent = '🏦';
                 vaultIcon.classList.add('shake');
                 setTimeout(() => vaultIcon.classList.remove('shake'), 400);
@@ -566,7 +567,7 @@
                     streakBadge.classList.add('on-fire');
                 }
                 
-                // Display full equation with answer for review (e.g. 4+5=9)
+                // Display full equation with answer for review
                 problemText.textContent = `${currentNum1} + ${currentNum2} = ${currentAnswer}`;
                 
                 messageDisplay.style.color = '#2ecc71';
