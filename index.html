@@ -27,10 +27,10 @@
         .game-container {
             background: #18191a;
             width: 100%;
-            max-width: 420px; /* Optimized for iPhone Mini screen width */
+            max-width: 400px;
             border-radius: 20px;
             box-shadow: 0 15px 30px rgba(0,0,0,0.6);
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             border: 5px solid #f1c40f;
             position: relative;
@@ -38,15 +38,15 @@
 
         h1 {
             color: #f1c40f;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-bottom: 2px;
             text-shadow: 2px 2px 0px #d35400;
         }
 
         .subtitle {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #bdc3c7;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         /* Top HUD */
@@ -57,8 +57,8 @@
             background: #242526;
             padding: 8px 12px;
             border-radius: 10px;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
             font-weight: bold;
             border: 2px solid #3a3b3c;
         }
@@ -68,7 +68,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .streak-badge.on-fire {
@@ -80,36 +80,38 @@
             to { transform: scale(1.12); filter: drop-shadow(0 0 6px #ff4757); }
         }
 
-        /* Coin Transfer Stage */
+        /* Coin Transfer Stage - Clean Separation */
         .transfer-stage {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #242526;
-            padding: 10px;
+            padding: 8px;
             border-radius: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 2px dashed #474849;
             position: relative;
+            gap: 8px;
         }
 
         .coin-pool {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-            width: 48%;
+            gap: 4px;
+            width: 52%;
+            flex-shrink: 0;
         }
 
         .coin {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             background: radial-gradient(circle, #f1c40f, #d4ac0d);
             border: 2px solid #b7950b;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
             color: #7d6608;
             box-shadow: 0 2px 4px rgba(0,0,0,0.4);
@@ -125,15 +127,15 @@
         /* Flying Coin Animation */
         .flying-coin {
             position: fixed;
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             background: radial-gradient(circle, #f1c40f, #d4ac0d);
             border: 2px solid #b7950b;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
             color: #7d6608;
             box-shadow: 0 0 10px #f1c40f;
@@ -143,22 +145,23 @@
         }
 
         .vault-dropzone {
-            width: 46%;
+            width: 44%;
             background: #2f3031;
             border: 3px solid #f1c40f;
-            border-radius: 12px;
-            padding: 8px;
+            border-radius: 10px;
+            padding: 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 75px;
+            min-height: 70px;
             position: relative;
             box-shadow: inset 0 3px 6px rgba(0,0,0,0.5);
+            flex-shrink: 0;
         }
 
         .vault-graphic {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #f1c40f;
             transition: transform 0.3s ease;
         }
@@ -174,9 +177,10 @@
         }
 
         .vault-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #f1c40f;
             margin-top: 2px;
+            white-space: nowrap;
         }
 
         /* Arcade Announcement Banner */
@@ -185,9 +189,9 @@
             color: #ffffff;
             padding: 6px;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border: 2px solid #f1c40f;
             display: none;
         }
@@ -196,32 +200,32 @@
         .problem-card {
             background: linear-gradient(135deg, #0984e3, #6c5ce7);
             color: #ffffff;
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
-            padding: 10px;
+            padding: 8px;
             border-radius: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             box-shadow: inset 0 3px 6px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.3);
             border: 3px solid #a29bfe;
             text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
         }
 
-        /* Options Grid - Smaller & Compact for Mini Screens */
+        /* Options Grid */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
         .option-btn {
             background: linear-gradient(135deg, #e67e22, #d35400);
             color: white;
             border: none;
-            padding: 12px;
-            font-size: 1.3rem;
+            padding: 10px;
+            font-size: 1.2rem;
             font-weight: bold;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 4px 0 #a04000, 0 6px 10px rgba(0,0,0,0.3);
             position: relative;
@@ -245,9 +249,9 @@
         }
 
         .message {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
-            min-height: 25px;
+            min-height: 22px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
@@ -259,13 +263,13 @@
             background: linear-gradient(135deg, #2ecc71, #27ae60);
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 1.2rem;
+            padding: 10px 20px;
+            font-size: 1.1rem;
             font-weight: bold;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 4px 0 #1e8449, 0 6px 12px rgba(0,0,0,0.3);
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .restart-btn:active {
@@ -313,8 +317,8 @@
         <!-- Win Screen -->
         <div id="win-screen" class="hidden">
             <div class="vault-graphic" style="font-size: 3.5rem; margin-bottom: 10px;">👑💰🏆</div>
-            <h2 style="color: #2ecc71; font-size: 1.8rem; margin-bottom: 8px;">Amazing job! You're a Math Superstar!</h2>
-            <p style="font-size: 1rem; margin-bottom: 20px; color: #ecf0f1;">All coins have been successfully deposited into the bank!</p>
+            <h2 style="color: #2ecc71; font-size: 1.6rem; margin-bottom: 6px;">Amazing job! You're a Math Superstar!</h2>
+            <p style="font-size: 0.95rem; margin-bottom: 15px; color: #ecf0f1;">All coins have been successfully deposited into the bank!</p>
             <button class="restart-btn" onclick="startGame()">Play Again 🚀</button>
         </div>
     </div>
@@ -534,8 +538,8 @@
 
             playSound('basketball-whoosh');
 
-            flyer.style.left = `${targetRect.left + (targetRect.width / 2) - 13}px`;
-            flyer.style.top = `${targetRect.top + (targetRect.height / 2) - 13}px`;
+            flyer.style.left = `${targetRect.left + (targetRect.width / 2) - 12}px`;
+            flyer.style.top = `${targetRect.top + (targetRect.height / 2) - 12}px`;
             flyer.style.transform = 'scale(1.2) rotate(360deg)';
 
             setTimeout(() => {
