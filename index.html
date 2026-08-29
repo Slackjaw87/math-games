@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Math Vault Plus</title>
     <style>
         * {
@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -19,33 +20,33 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 10px;
             overflow-x: hidden;
         }
 
         .game-container {
             background: #18191a;
             width: 100%;
-            max-width: 600px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            padding: 25px;
+            max-width: 420px; /* Optimized for iPhone Mini screen width */
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            padding: 15px;
             text-align: center;
-            border: 6px solid #f1c40f;
+            border: 5px solid #f1c40f;
             position: relative;
         }
 
         h1 {
             color: #f1c40f;
-            font-size: 2.2rem;
-            margin-bottom: 5px;
+            font-size: 1.6rem;
+            margin-bottom: 2px;
             text-shadow: 2px 2px 0px #d35400;
         }
 
         .subtitle {
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: #bdc3c7;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         /* Top HUD */
@@ -54,10 +55,10 @@
             justify-content: space-between;
             align-items: center;
             background: #242526;
-            padding: 12px 18px;
-            border-radius: 14px;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
             font-weight: bold;
             border: 2px solid #3a3b3c;
         }
@@ -66,8 +67,8 @@
             color: #ff9f43;
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 1.2rem;
+            gap: 4px;
+            font-size: 1rem;
         }
 
         .streak-badge.on-fire {
@@ -76,7 +77,7 @@
 
         @keyframes firePulse {
             from { transform: scale(1); filter: drop-shadow(0 0 2px #ff4757); }
-            to { transform: scale(1.12); filter: drop-shadow(0 0 8px #ff4757); }
+            to { transform: scale(1.12); filter: drop-shadow(0 0 6px #ff4757); }
         }
 
         /* Coin Transfer Stage */
@@ -85,9 +86,9 @@
             justify-content: space-between;
             align-items: center;
             background: #242526;
-            padding: 15px;
-            border-radius: 16px;
-            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 12px;
             border: 2px dashed #474849;
             position: relative;
         }
@@ -95,23 +96,23 @@
         .coin-pool {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            width: 45%;
+            gap: 5px;
+            width: 48%;
         }
 
         .coin {
-            width: 34px;
-            height: 34px;
+            width: 26px;
+            height: 26px;
             background: radial-gradient(circle, #f1c40f, #d4ac0d);
             border: 2px solid #b7950b;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: bold;
             color: #7d6608;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
             transition: all 0.4s ease;
         }
 
@@ -124,40 +125,40 @@
         /* Flying Coin Animation */
         .flying-coin {
             position: fixed;
-            width: 34px;
-            height: 34px;
+            width: 26px;
+            height: 26px;
             background: radial-gradient(circle, #f1c40f, #d4ac0d);
             border: 2px solid #b7950b;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: bold;
             color: #7d6608;
-            box-shadow: 0 0 15px #f1c40f;
+            box-shadow: 0 0 10px #f1c40f;
             z-index: 9999;
             pointer-events: none;
             transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .vault-dropzone {
-            width: 45%;
+            width: 46%;
             background: #2f3031;
-            border: 4px solid #f1c40f;
-            border-radius: 16px;
-            padding: 10px;
+            border: 3px solid #f1c40f;
+            border-radius: 12px;
+            padding: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 95px;
+            min-height: 75px;
             position: relative;
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.5);
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.5);
         }
 
         .vault-graphic {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: #f1c40f;
             transition: transform 0.3s ease;
         }
@@ -168,101 +169,86 @@
 
         @keyframes vaultShake {
             0%, 100% { transform: translateX(0) rotate(0); }
-            25% { transform: translateX(-6px) rotate(-8deg); }
-            75% { transform: translateX(6px) rotate(8deg); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         .vault-label {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #f1c40f;
-            margin-top: 4px;
-            letter-spacing: 0.5px;
+            margin-top: 2px;
         }
 
         /* Arcade Announcement Banner */
         .arcade-banner {
             background: linear-gradient(135deg, #2c3e50, #f39c12);
             color: #ffffff;
-            padding: 10px;
-            border-radius: 12px;
-            font-size: 1.15rem;
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 0.95rem;
             font-weight: bold;
-            margin-bottom: 15px;
-            box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3);
+            margin-bottom: 10px;
             border: 2px solid #f1c40f;
-            animation: bannerPulse 0.6s infinite alternate;
             display: none;
-        }
-
-        @keyframes bannerPulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.02); }
         }
 
         /* Problem Card (Equation) */
         .problem-card {
             background: linear-gradient(135deg, #0984e3, #6c5ce7);
             color: #ffffff;
-            font-size: 3rem;
+            font-size: 2.2rem;
             font-weight: bold;
-            padding: 15px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.2), 0 6px 15px rgba(0,0,0,0.3);
-            border: 4px solid #a29bfe;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.3);
+            border: 3px solid #a29bfe;
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
         }
 
-        /* Options Grid */
+        /* Options Grid - Smaller & Compact for Mini Screens */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .option-btn {
             background: linear-gradient(135deg, #e67e22, #d35400);
             color: white;
             border: none;
-            padding: 16px;
-            font-size: 1.6rem;
+            padding: 12px;
+            font-size: 1.3rem;
             font-weight: bold;
-            border-radius: 16px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 6px 0 #a04000, 0 10px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 0 #a04000, 0 6px 10px rgba(0,0,0,0.3);
             position: relative;
-            overflow: hidden;
-        }
-
-        .option-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 0 #a04000, 0 12px 20px rgba(0,0,0,0.4);
         }
 
         .option-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #a04000, 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #a04000;
         }
 
         .option-btn.shake-wrong {
             animation: buttonShake 0.4s ease-in-out;
             background: linear-gradient(135deg, #eb4d4b, #c0392b) !important;
-            box-shadow: 0 6px 0 #962d22 !important;
+            box-shadow: 0 4px 0 #962d22 !important;
         }
 
         @keyframes buttonShake {
             0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
         }
 
         .message {
-            font-size: 1.25rem;
+            font-size: 1rem;
             font-weight: bold;
-            min-height: 35px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            min-height: 25px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
         .hidden {
@@ -273,24 +259,18 @@
             background: linear-gradient(135deg, #2ecc71, #27ae60);
             color: white;
             border: none;
-            padding: 16px 32px;
-            font-size: 1.4rem;
+            padding: 12px 24px;
+            font-size: 1.2rem;
             font-weight: bold;
-            border-radius: 16px;
+            border-radius: 12px;
             cursor: pointer;
-            box-shadow: 0 6px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.3);
-            transition: all 0.15s ease;
-            margin-top: 15px;
-        }
-
-        .restart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 0 #1e8449, 0 12px 25px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 0 #1e8449, 0 6px 12px rgba(0,0,0,0.3);
+            margin-top: 10px;
         }
 
         .restart-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #1e8449, 0 4px 10px rgba(0,0,0,0.2);
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #1e8449;
         }
     </style>
 </head>
@@ -332,15 +312,14 @@
 
         <!-- Win Screen -->
         <div id="win-screen" class="hidden">
-            <div class="vault-graphic" style="font-size: 4rem; margin-bottom: 15px;">👑💰🏆</div>
-            <h2 style="color: #2ecc71; font-size: 2.2rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.4);">Amazing job! You're a Math Superstar!</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 25px; color: #ecf0f1; line-height: 1.4;">All coins have been successfully deposited into the bank!</p>
+            <div class="vault-graphic" style="font-size: 3.5rem; margin-bottom: 10px;">👑💰🏆</div>
+            <h2 style="color: #2ecc71; font-size: 1.8rem; margin-bottom: 8px;">Amazing job! You're a Math Superstar!</h2>
+            <p style="font-size: 1rem; margin-bottom: 20px; color: #ecf0f1;">All coins have been successfully deposited into the bank!</p>
             <button class="restart-btn" onclick="startGame()">Play Again 🚀</button>
         </div>
     </div>
 
     <script>
-        // Web Audio API Sound Generator
         let audioCtx = null;
 
         function initAudio() {
@@ -356,8 +335,7 @@
             const now = audioCtx.currentTime;
 
             if (type === 'basketball-whoosh') {
-                // Crisp air-whipping sound similar to a basketball cutting through the air
-                const bufferSize = audioCtx.sampleRate * 0.35;
+                const bufferSize = audioCtx.sampleRate * 0.3;
                 const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
                 const data = buffer.getChannelData(0);
                 for (let i = 0; i < bufferSize; i++) {
@@ -370,24 +348,23 @@
                 const filter = audioCtx.createBiquadFilter();
                 filter.type = 'bandpass';
                 filter.frequency.setValueAtTime(400, now);
-                filter.frequency.exponentialRampToValueAtTime(1800, now + 0.15);
-                filter.frequency.exponentialRampToValueAtTime(300, now + 0.35);
+                filter.frequency.exponentialRampToValueAtTime(1800, now + 0.12);
+                filter.frequency.exponentialRampToValueAtTime(300, now + 0.3);
                 filter.Q.value = 3.0;
 
                 const gain = audioCtx.createGain();
                 gain.gain.setValueAtTime(0.01, now);
-                gain.gain.linearRampToValueAtTime(0.3, now + 0.12);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                gain.gain.linearRampToValueAtTime(0.25, now + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
 
                 noise.connect(filter);
                 filter.connect(gain);
                 gain.connect(audioCtx.destination);
 
                 noise.start(now);
-                noise.stop(now + 0.35);
+                noise.stop(now + 0.3);
             } 
             else if (type === 'arrival') {
-                // Correct answer chime playing when the coin arrives at the bank
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.connect(gain);
@@ -395,12 +372,12 @@
 
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(350, now);
-                osc.frequency.exponentialRampToValueAtTime(700, now + 0.18);
-                gain.gain.setValueAtTime(0.25, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.frequency.exponentialRampToValueAtTime(700, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
                 
                 osc.start(now);
-                osc.stop(now + 0.35);
+                osc.stop(now + 0.3);
             } 
             else if (type === 'incorrect') {
                 const osc = audioCtx.createOscillator();
@@ -410,12 +387,12 @@
 
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(140, now);
-                osc.frequency.setValueAtTime(90, now + 0.12);
+                osc.frequency.setValueAtTime(90, now + 0.1);
                 gain.gain.setValueAtTime(0.2, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
                 
                 osc.start(now);
-                osc.stop(now + 0.25);
+                osc.stop(now + 0.2);
             } 
             else if (type === 'win') {
                 let notes = [261.63, 329.63, 392.00, 523.25, 659.25];
@@ -424,11 +401,11 @@
                     let noteGain = audioCtx.createGain();
                     noteOsc.connect(noteGain);
                     noteGain.connect(audioCtx.destination);
-                    noteOsc.frequency.setValueAtTime(freq, now + idx * 0.12);
-                    noteGain.gain.setValueAtTime(0.2, now + idx * 0.12);
-                    noteGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.12 + 0.35);
-                    noteOsc.start(now + idx * 0.12);
-                    noteOsc.stop(now + idx * 0.12 + 0.35);
+                    noteOsc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                    noteGain.gain.setValueAtTime(0.18, now + idx * 0.1);
+                    noteGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.3);
+                    noteOsc.start(now + idx * 0.1);
+                    noteOsc.stop(now + idx * 0.1 + 0.3);
                 });
             }
         }
@@ -490,7 +467,6 @@
             eqNumDisplay.textContent = currentIndex + 1;
             renderCoins();
 
-            // Handle Banners
             if (currentIndex === 4) {
                 arcadeBanner.textContent = '⭐ HALF WAY THERE! KEEP CRUSHING IT! ⭐';
                 arcadeBanner.style.display = 'block';
@@ -501,7 +477,6 @@
                 arcadeBanner.style.display = 'none';
             }
 
-            // Advanced 1st Grade 2/3 School Year Progression (Addition Only)
             if (currentIndex < 2) {
                 currentNum1 = getRandomInt(3, 6);
                 currentNum2 = getRandomInt(3, 4);
@@ -516,7 +491,6 @@
             currentAnswer = currentNum1 + currentNum2;
             problemText.textContent = `${currentNum1} + ${currentNum2}`;
 
-            // Generate options close to the real answer to prevent easy guessing
             let options = [currentAnswer];
             while (options.length < 4) {
                 let offset = getRandomInt(-3, 3);
@@ -558,16 +532,14 @@
             targetCoin.classList.add('spent');
             flyer.getBoundingClientRect();
 
-            // Play the basketball air-whipping sound as the coin starts its journey
             playSound('basketball-whoosh');
 
-            flyer.style.left = `${targetRect.left + (targetRect.width / 2) - 17}px`;
-            flyer.style.top = `${targetRect.top + (targetRect.height / 2) - 17}px`;
+            flyer.style.left = `${targetRect.left + (targetRect.width / 2) - 13}px`;
+            flyer.style.top = `${targetRect.top + (targetRect.height / 2) - 13}px`;
             flyer.style.transform = 'scale(1.2) rotate(360deg)';
 
             setTimeout(() => {
                 flyer.remove();
-                // Play correct answer chime when coin arrives at the bank
                 playSound('arrival');
                 vaultIcon.textContent = '🏦';
                 vaultIcon.classList.add('shake');
@@ -590,13 +562,12 @@
                     streakBadge.classList.add('on-fire');
                 }
                 
-                // Display full equation with answer for review
                 problemText.textContent = `${currentNum1} + ${currentNum2} = ${currentAnswer}`;
                 
                 messageDisplay.style.color = '#2ecc71';
-                messageDisplay.textContent = '✨ Correct! Deposited into Bank! ✨';
+                messageDisplay.textContent = '✨ Correct! Deposited! ✨';
                 btn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
-                btn.style.boxShadow = '0 6px 0 #1e8449, 0 10px 15px rgba(0,0,0,0.3)';
+                btn.style.boxShadow = '0 4px 0 #1e8449, 0 6px 10px rgba(0,0,0,0.3)';
 
                 triggerPhysicalCoinFlight(() => {
                     currentIndex++;
@@ -626,7 +597,7 @@
                     isProcessing = false;
                     btn.classList.remove('shake-wrong');
                     btn.style.background = 'linear-gradient(135deg, #e67e22, #d35400)';
-                    btn.style.boxShadow = '0 6px 0 #a04000, 0 10px 15px rgba(0,0,0,0.3)';
+                    btn.style.boxShadow = '0 4px 0 #a04000, 0 6px 10px rgba(0,0,0,0.3)';
                     messageDisplay.textContent = '';
                     allButtons.forEach(b => b.style.pointerEvents = 'auto');
                 }, 800);
