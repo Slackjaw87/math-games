@@ -361,30 +361,31 @@
             let now = audioCtx.currentTime;
 
             if (type === 'correct') {
+                // Gentle pleasant chime
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'land') {
+                // Satisfying mechanical vault thud / heavy click sound when coin enters deposit
                 osc.type = 'triangle';
-                osc.frequency.setValueAtTime(350, now);
-                osc.frequency.exponentialRampToValueAtTime(700, now + 0.18);
-                gain.gain.setValueAtTime(0.25, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.exponentialRampToValueAtTime(60, now + 0.15);
+                gain.gain.setValueAtTime(0.35, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
                 osc.start(now);
-                osc.stop(now + 0.35);
-            } else if (type === 'cashregister') {
-                // Authentic two-tone Cha-Ching cash register sound
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(987.77, now); // B5 note
-                osc.frequency.setValueAtTime(1318.51, now + 0.08); // E6 note
-                gain.gain.setValueAtTime(0.25, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-                osc.start(now);
-                osc.stop(now + 0.3);
+                osc.stop(now + 0.2);
             } else if (type === 'incorrect') {
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(140, now);
                 osc.frequency.setValueAtTime(90, now + 0.12);
-                gain.gain.setValueAtTime(0.25, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
                 osc.start(now);
-                osc.stop(now + 0.28);
+                osc.stop(now + 0.25);
             } else if (type === 'win') {
                 let notes = [261.63, 329.63, 392.00, 523.25, 659.25];
                 notes.forEach((freq, idx) => {
@@ -393,7 +394,7 @@
                     noteOsc.connect(noteGain);
                     noteGain.connect(audioCtx.destination);
                     noteOsc.frequency.setValueAtTime(freq, now + idx * 0.12);
-                    noteGain.gain.setValueAtTime(0.22, now + idx * 0.12);
+                    noteGain.gain.setValueAtTime(0.2, now + idx * 0.12);
                     noteGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.12 + 0.35);
                     noteOsc.start(now + idx * 0.12);
                     noteOsc.stop(now + idx * 0.12 + 0.35);
@@ -532,7 +533,7 @@
 
             setTimeout(() => {
                 flyer.remove();
-                playSound('cashregister'); // Play Cha-Ching sound effect on landing
+                playSound('land'); // Play satisfying mechanical vault drop thud on landing
                 vaultIcon.textContent = '🏦';
                 vaultIcon.classList.add('shake');
                 setTimeout(() => vaultIcon.classList.remove('shake'), 400);
