@@ -355,32 +355,39 @@
             
             const now = audioCtx.currentTime;
 
-            if (type === 'woosh') {
-                // Smooth passing swoosh sound effect during coin transfer
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
+            if (type === 'basketball-whoosh') {
+                // Crisp air-whipping sound similar to a basketball cutting through the air
+                const bufferSize = audioCtx.sampleRate * 0.35;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
                 const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(400, now);
+                filter.frequency.exponentialRampToValueAtTime(1800, now + 0.15);
+                filter.frequency.exponentialRampToValueAtTime(300, now + 0.35);
+                filter.Q.value = 3.0;
 
-                osc.type = 'sine';
-                filter.type = 'lowpass';
-                
-                filter.frequency.setValueAtTime(200, now);
-                filter.frequency.exponentialRampToValueAtTime(1200, now + 0.4);
-                filter.frequency.exponentialRampToValueAtTime(300, now + 0.8);
-
+                const gain = audioCtx.createGain();
                 gain.gain.setValueAtTime(0.01, now);
-                gain.gain.linearRampToValueAtTime(0.25, now + 0.3);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+                gain.gain.linearRampToValueAtTime(0.3, now + 0.12);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
 
-                osc.connect(filter);
+                noise.connect(filter);
                 filter.connect(gain);
                 gain.connect(audioCtx.destination);
 
-                osc.start(now);
-                osc.stop(now + 0.8);
+                noise.start(now);
+                noise.stop(now + 0.35);
             } 
             else if (type === 'arrival') {
-                // The pleasant correct answer chime playing when the coin arrives at the bank
+                // Correct answer chime playing when the coin arrives at the bank
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.connect(gain);
@@ -551,8 +558,8 @@
             targetCoin.classList.add('spent');
             flyer.getBoundingClientRect();
 
-            // Play the woosh sound as the coin starts its journey
-            playSound('woosh');
+            // Play the basketball air-whipping sound as the coin starts its journey
+            playSound('basketball-whoosh');
 
             flyer.style.left = `${targetRect.left + (targetRect.width / 2) - 17}px`;
             flyer.style.top = `${targetRect.top + (targetRect.height / 2) - 17}px`;
@@ -560,7 +567,7 @@
 
             setTimeout(() => {
                 flyer.remove();
-                // Play correct answer sound when coin arrives at the bank
+                // Play correct answer chime when coin arrives at the bank
                 playSound('arrival');
                 vaultIcon.textContent = '🏦';
                 vaultIcon.classList.add('shake');
