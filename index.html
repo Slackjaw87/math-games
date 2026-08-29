@@ -40,12 +40,6 @@
             font-size: 2.2rem;
             margin-bottom: 5px;
             text-shadow: 2px 2px 0px #d35400;
-            animation: floatTitle 3s ease-in-out infinite;
-        }
-
-        @keyframes floatTitle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
         }
 
         .subtitle {
@@ -216,13 +210,7 @@
             margin-bottom: 20px;
             box-shadow: inset 0 4px 8px rgba(0,0,0,0.2), 0 6px 15px rgba(0,0,0,0.3);
             border: 4px solid #a29bfe;
-            animation: cardFloat 2.5s ease-in-out infinite;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        @keyframes cardFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
         }
 
         /* Options Grid */
@@ -310,7 +298,7 @@
 
     <div class="game-container">
         <h1>Math Vault Plus</h1>
-        <div class="subtitle">1st Grade Edition • 10 Vault Codes</div>
+        <div class="subtitle">1st Grade Edition</div>
 
         <div id="game-screen">
             <!-- HUD -->
@@ -344,7 +332,7 @@
 
         <!-- Win Screen -->
         <div id="win-screen" class="hidden">
-            <div class="vault-graphic" style="font-size: 4rem; margin-bottom: 15px; animation: floatTitle 2s infinite;">👑💰🏆</div>
+            <div class="vault-graphic" style="font-size: 4rem; margin-bottom: 15px;">👑💰🏆</div>
             <h2 style="color: #2ecc71; font-size: 2.2rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.4);">Amazing job! You're a Math Superstar!</h2>
             <p style="font-size: 1.2rem; margin-bottom: 25px; color: #ecf0f1; line-height: 1.4;">All coins have been successfully deposited into the bank!</p>
             <button class="restart-btn" onclick="startGame()">Play Again 🚀</button>
@@ -381,11 +369,11 @@
                 osc.start(now);
                 osc.stop(now + 0.35);
             } else if (type === 'cashregister') {
-                // Cha-ching cash register arcade sound effect
+                // Authentic two-tone Cha-Ching cash register sound
                 osc.type = 'square';
-                osc.frequency.setValueAtTime(987.77, now); // B5
-                osc.frequency.setValueAtTime(1318.51, now + 0.08); // E6
-                gain.gain.setValueAtTime(0.2, now);
+                osc.frequency.setValueAtTime(987.77, now); // B5 note
+                osc.frequency.setValueAtTime(1318.51, now + 0.08); // E6 note
+                gain.gain.setValueAtTime(0.25, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
                 osc.start(now);
                 osc.stop(now + 0.3);
@@ -544,7 +532,7 @@
 
             setTimeout(() => {
                 flyer.remove();
-                playSound('cashregister'); // Cha-ching sound effect on landing
+                playSound('cashregister'); // Play Cha-Ching sound effect on landing
                 vaultIcon.textContent = '🏦';
                 vaultIcon.classList.add('shake');
                 setTimeout(() => vaultIcon.classList.remove('shake'), 400);
